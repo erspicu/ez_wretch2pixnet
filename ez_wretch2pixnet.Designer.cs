@@ -32,12 +32,26 @@ namespace ez_wretch2pixnet
         {
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button12 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.button14 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -57,14 +71,6 @@ namespace ez_wretch2pixnet
             this.button4 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label15 = new System.Windows.Forms.Label();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -82,6 +88,7 @@ namespace ez_wretch2pixnet
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button12);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button2);
@@ -90,10 +97,21 @@ namespace ez_wretch2pixnet
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 491);
+            this.groupBox1.Size = new System.Drawing.Size(200, 577);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "服務安全認證";
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(6, 487);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(75, 23);
+            this.button12.TabIndex = 6;
+            this.button12.Text = "test";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Visible = false;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // label2
             // 
@@ -143,6 +161,11 @@ namespace ez_wretch2pixnet
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.button14);
+            this.groupBox2.Controls.Add(this.button13);
+            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.button11);
             this.groupBox2.Controls.Add(this.button9);
             this.groupBox2.Controls.Add(this.label15);
@@ -171,10 +194,128 @@ namespace ez_wretch2pixnet
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Location = new System.Drawing.Point(217, 18);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(423, 485);
+            this.groupBox2.Size = new System.Drawing.Size(423, 571);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "無名轉匯作業";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(17, 547);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(63, 12);
+            this.label17.TabIndex = 37;
+            this.label17.Text = "處理資訊 - ";
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(218, 516);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(184, 23);
+            this.button14.TabIndex = 36;
+            this.button14.Text = "清空文章回覆留言轉匯";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(15, 517);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(186, 23);
+            this.button13.TabIndex = 35;
+            this.button13.Text = "文章回覆留言轉匯";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(116, 424);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(168, 16);
+            this.checkBox1.TabIndex = 33;
+            this.checkBox1.Text = "勾選後不使用起始連匯時間";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(19, 424);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(89, 12);
+            this.label16.TabIndex = 32;
+            this.label16.Text = "使用原時間轉匯";
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(222, 190);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(180, 23);
+            this.button11.TabIndex = 31;
+            this.button11.Text = "清空照片匯入進度記錄";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(218, 466);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(184, 23);
+            this.button9.TabIndex = 30;
+            this.button9.Text = "清空Blog文章匯入進度記錄";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click_1);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(19, 389);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(77, 12);
+            this.label15.TabIndex = 29;
+            this.label15.Text = "起始連匯時間";
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(102, 389);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePicker1.TabIndex = 28;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(250, 361);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(152, 22);
+            this.textBox6.TabIndex = 26;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(248, 346);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(100, 12);
+            this.label14.TabIndex = 25;
+            this.label14.Text = "分類ID (無免填寫)";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(17, 346);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(133, 12);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "標籤 (多標籤以 , 號區隔)";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(15, 361);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(229, 22);
+            this.textBox5.TabIndex = 23;
             // 
             // label11
             // 
@@ -224,14 +365,14 @@ namespace ez_wretch2pixnet
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(17, 328);
+            this.textBox4.Location = new System.Drawing.Point(17, 310);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(389, 22);
             this.textBox4.TabIndex = 12;
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(15, 299);
+            this.button8.Location = new System.Drawing.Point(15, 281);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(179, 23);
             this.button8.TabIndex = 11;
@@ -242,7 +383,7 @@ namespace ez_wretch2pixnet
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 463);
+            this.label6.Location = new System.Drawing.Point(15, 492);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(63, 12);
             this.label6.TabIndex = 10;
@@ -250,7 +391,7 @@ namespace ez_wretch2pixnet
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(15, 437);
+            this.button7.Location = new System.Drawing.Point(15, 466);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(186, 23);
             this.button7.TabIndex = 9;
@@ -348,74 +489,6 @@ namespace ez_wretch2pixnet
             this.linkLabel1.Text = "作者軟體官方頁面";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(15, 379);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(229, 22);
-            this.textBox5.TabIndex = 23;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(17, 364);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(133, 12);
-            this.label13.TabIndex = 24;
-            this.label13.Text = "標籤 (多標籤以 , 號區隔)";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(248, 364);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(100, 12);
-            this.label14.TabIndex = 25;
-            this.label14.Text = "分類ID (無免填寫)";
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(250, 379);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(152, 22);
-            this.textBox6.TabIndex = 26;
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(102, 407);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
-            this.dateTimePicker1.TabIndex = 28;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(19, 407);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(77, 12);
-            this.label15.TabIndex = 29;
-            this.label15.Text = "起始連匯時間";
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(218, 437);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(184, 23);
-            this.button9.TabIndex = 30;
-            this.button9.Text = "清空Blog文章匯入進度記錄";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click_1);
-            // 
-            // button11
-            // 
-            this.button11.Location = new System.Drawing.Point(222, 190);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(180, 23);
-            this.button11.TabIndex = 31;
-            this.button11.Text = "清空照片匯入進度記錄";
-            this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -423,13 +496,13 @@ namespace ez_wretch2pixnet
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 12);
             this.label7.TabIndex = 4;
-            this.label7.Text = " ver 2013.10.06";
+            this.label7.Text = " ver 2013.10.14";
             // 
             // wretch2pixnet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 518);
+            this.ClientSize = new System.Drawing.Size(648, 601);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.groupBox2);
@@ -487,6 +560,12 @@ namespace ez_wretch2pixnet
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button13;
     }
 }
 

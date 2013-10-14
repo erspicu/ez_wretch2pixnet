@@ -17,14 +17,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 
+using System.Globalization;
+
 namespace ez_wretch2pixnet
 {
     public partial class wretch2pixnet : Form
     {
 
-        //請申請自用開發APP 得到相關資訊後填入  參考 http://apps.pixnet.tw 
-        public string ConsumerKey = "";
-        public string ComsumerSecret = "";
+
+        public string ConsumerKey = "5083bf623a4662c591895ebe86eb5b0c";
+        public string ComsumerSecret = "2e44787e190df4f5455d1937b95203bb";
 
         public string request_token_url = "http://emma.pixnet.cc/oauth/request_token";
         public string access_token_url = "http://emma.pixnet.cc/oauth/access_token";
@@ -54,11 +56,34 @@ namespace ez_wretch2pixnet
         public string _params_str = "";
         public string _params_str_header = "";
 
-        public string get_basestring(string method, string url)
+        //原始寫法會產生URI過長,格式錯誤的例外產生
+        /*public string get_basestring(string method, string url)
         {
             string tmp = "";
             _params_str = get_params_str();
             tmp = method + "&" + Uri.EscapeDataString(url) + "&" + Uri.EscapeDataString(_params_str.Replace("\"", "").Replace(",", "&"));
+            return tmp;
+        }*/
+
+        public string get_basestring(string method, string url)
+        {
+            string tmp = "";
+            _params_str = get_params_str();
+
+
+            string url_all = "";
+
+            
+            for (int i = 0; i < url.Length; i++)
+                url_all = url_all + Uri.EscapeDataString(url[i].ToString());
+
+            string _params_str_all = "";
+
+            for (int i = 0; i < _params_str.Length; i++)
+                _params_str_all = _params_str_all + Uri.EscapeDataString(_params_str[i].ToString().Replace("\"", "").Replace(",", "&"));
+
+            tmp = method + "&" + url_all + "&" + _params_str_all;
+
             return tmp;
         }
 
@@ -891,10 +916,18 @@ namespace ez_wretch2pixnet
         {
 
             int c = 0;
-            DateTime t = new DateTime(2012, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc);
+            DateTime t = dateTimePicker1.Value;
 
 
+            bool org_time = false;
 
+            if (checkBox1.Checked == true)
+                org_time = true;
+
+            //bool post_msg_delay = false;
+
+            //if (checkBox2.Checked == true)
+            //    post_msg_delay = true;
 
 
             if (textBox4.Text == "")
@@ -971,8 +1004,10 @@ namespace ez_wretch2pixnet
                         {
                             //text = text.Replace(r, "<img src=\"\" />");
                             //text = "<img alt=\"圖片遺失\" src=\"data:image/x-png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAO20lEQVR4nO2ZaWxc13mGn3Pnzgy3GXLIGUpcRhZJWZFESnac1nFsJ2qc2LK2OrJsSkJiy2iNdAGCFi5aID+aIv0RtGnc5UeNtkCB2A5Qr7Ed27JMWrLl2pJiyaosyLKsjYtIipvI2be7nP64M8OZ4Qw5XFCgAD/g4N575s55v/c93zn3O+fAiq3Yiq3Yiq3Yiq3YEuzYli23H9uype/Yli1//v8NT1lqAx9s3ny7lLLXXlm5Vkr5Tx9s3vzUUtv8v8SzLcmZrq7bgd7q1lZvx8GDqA4Hkf7+bU80NoZ/OT5+Yiltz4e37oknUOz2JeMtWoD3OzuzzrTt348Aajo6EIpCOO3UsxMTyyZCLl77gQMgJdXt7ShCLAlvUQK8v2mT5UxLi7dt3z5IJEhcuIDUddybN6MoitUzPt+yiJDFa231th04AMkkic8/R2oa7q4uFCGIDAwsCm/BAhzduDFLvn3fPmQ8TvLLL8E0MSMRpGHg7urKRsJBny/87OTkokXI4qV7XiYSFp5hYIbDWRGEEIQHBhaMtyABjmzYcDvQW9PS4m179FGr59PkRfodMxzOiqBkRPB6w88tQoQsXqbnEwmSly6BYYCUICVGJGJFXlcXChAeHFwQXtkCHPnKV6yeaG72tj3yiOVMmjxgOQQIsCIh7ZRID4eDXm/4uZs3yxYhi9fa6m3fvx/i8RnygEwLgJSW6LqOu7PTGg4ZEcrAK0uA99avz5Jv37sXmUiQynEma2kRAGQ0OuNUOhIeb2goy6kMXk1rq7c9PcckL18Gw0BmcDIl/ZwRwdXZaQ2HwcGy8OYVoPfWWy1nmpq8bXv2zIRhuudFAfHcezMSgRwRQgMD2x5vaAg/PzVV0qn3Mnitrd727m5rmKXJFyOOlFY0wEwkbNqEAkSuX7dEmANvXgEer68/Ya+oaL61uxsBJL/4wiKfSzrtjMi5z1zNaBRpGLg2bbI+WQMD2x6vry8qQu+6ddk5pv2RRyCZzPZ8Ieks8YJ6MxwGmw3X+vWkJieJT01te7y+/p3np6aGi/GbNxOUUj6disfNsdOnEXY76qpVMwJIad2nn6VpZgs5Rb9xA21wkMa77qLp3nuRUj7d09GRl8H1dHTcLqXMDrNspOl6tp1s+2msrB8590p1Nbb6eiKDgwT6+5FSHgbOleI3bwQ8Pz39yWMez1B0ZGS3Ho+Lus5OUFWMYBAAUSz8i1zNSAQMA/fGjdacMDi47TGPJ/r89PTxnvb2mZ5Pk09duYIsDPvCksGQEgnYXC4c69YRHhyk7803MTXtdYTY+8DVq8lFC5AW4X9+UFd3KTY6+j0tHFbqOjsRdjtmWoTsF2AOAbLDQddxb9yYmageeMzjqQN+UdPc7O3Ys8cK+ytX8sd8bsSVGAKK242zvZ3g1av0HTqEqeu/EkJ8/4Fr17S5uJX9GfxVIHD+MY/ns9j4+J7k1JRa19mJUlGBEQgUJTtLkBwR0HXcGzZYE+Pg4F2u5uaq9jT51JUr8xMumPxsdXU42toIXLxIf08PGMZ/IMST2/r6jEIehSbme6HQDq9d+12kfKO2ra3qlgcfREYiJPv78xsTYuZZFECkn1WfD3tzM5Fr16jy+y3y167lT2wZS4d4VszsrURtaMDh9zN5/jxDx46BlP+IEH/xYNqn+WzBAgC8c8st9yLl2y6/3922YwcyHifV32/1XC5hIWYD5PyeEcGMREj19VkT2wy7vL/J3Of0feb/E2fPMnz8OEj5t0KIv3lwYKBsLosSAOCdNWt+BynfrW5qqm/buROhaST7+mYywxyiRSMhbUpVFWYiMfO/XEsTLdb7amMj9tWrGTt9mtFTpwD+cvvg4C8WymPRAgAc8vu7kLK3yudb3b5rF8I0reFQmCEWi4QyTRYOB8C+ahVqYyM3Tpxg/LPPTOBHO65ff2Yx7S9JAIBDra3rJByp9HjWtO/ahU1RSPb1IXU9jZAzH+Qhl4DOHeNF6u3Nzaj19Qx/9BGTFy7owB/uHBp6brH+L1kAgLdbWtYAR5xu97r2nTtRHY58EXIBSxEvsGI972hpwVZby/Vjx5i+fDkFfH/n8PArS/F9WQQAeKu5uRnodVRXb2rfuRN7ZSXJ/n5kKpVGmg1VWDOLckYEIXC0tmKrqWHg6FGC/f0JYO+ukZFDS/V72QQAeKupyQu8q1ZW3tG+fTtOl4tErgiLMSFwtrYiKisZOHKE8NBQBHho140bR5fD52UVAODN1avrgLdtTufd63bswOFykejrQ2pFErLcqCgS8gBOvx+lqor+3l7CIyMBYPvu0dGTy+WvulwNZUxKGQNCUtcxNS1/gZSxDPESpPMmQtPEzLQlZQqYWk5/lzUCftPYqAIvKjbbw7d85ztUNTaSun4dMx4vPevP66HA6fcjFYX+nh7i09NDwDd/f3y8fzl8XjYB3vD5FOBZoSg/uGXrVqqbm0kNDWHE40sCkoBQFJx+P6aU9PX0kAyFrgFbH5qYGFqq38siwBteL8C/I8QP/ffcg8vvJzUyghGLLRqscHAImw1nayuGrtP/3nukIpGLwNaHJifHl+L7ko/GwNo0kfDD5jvvpKalheTwMHokkjf+pWlimiamlJjplVxhyfxmFvxPmiamppEYHESx2VizdStqZeUGKWXv6w0N9UvxfckR8Fp9/U+BnzR/7WvUdnSgjY1hRCJFkBYBVWSSFKqKo6UFPR5n4P330RKJT4D790xNhRYOsEQBXvN4/gr4+1VbtuBZvx5tYgI9HC4/7S3XCoQQdjuO5mZSkQiDx45hpFIfAtv3TE/HijdQ2hbt2a/r6v4U+Fffpk00bNyINjmJHprphLlWgIu2nH0BxeHA0dREMhhk8KOPMDWtB9j9cCCwoKxrUR6+Wlv7BPCf3ltvVbydnWiBAHpmZwhKL4DykIVForERPRhED4dL5wUUXxIrTieO1atJTE0xdPw4pmG8Djz6cDA4exFSwhZ8Nviq290N/NLT1mbzdnaiBYPo09Ml9+vztrFyTKgq9lWrkFJaewKpVH62OF8bUiJ1HTMex9nQQIXHQ3h4eIOUct0+p/P1l5LJ0mouVoBXXK5dwAu1fr/dt3kzeiiENjU1+2CkwGGZLpk6YbfjaGwkGQwy8OGHCJuNqqYmzETCEqHYRkiJHWGp6xiJBE6vF6fbTeTGjc1SypZup/PNl8pYg5QtwCs1Nd8FXnM1NTkbt2zBiESy5GcdVxWJhkxvClXF4fORDAYZOnkSI5nsj46N1Tlqaqjw+TDicUxdL9nrs8SVEqlpmMkkFV4vjqoqImNjdyBlfbfDcXg+EcoS4OXq6ruBt6obG6tW3XYbRjyOdvNmfk+U4bCiqji8XpKhEEO//S2mph1FiHuR0hMZHf3dSo8Hh8eDEYsVPxMoImgWKpXC1DQqfT7sTieRiYmvI6XjZU2bc9U4rwAvVVXdAfRWNTS4Vt12G2YiMYt81qESxEn3vL2hgWQoxPCpUxiadlQIsfvRaDTW7XAclqbZGRkd3VTt82F3uzFjMWsBVWpIFatPzyMVPh82VSV68+Y3H7XbtZc17b9L8Zv3K/BSZWWf6nSubf3GNwDQJiYswBLb3cUaFXY79oYGUpEII59+mun53d2xmVz5paoqB1K+Y3M672u9805sqkoqI3ThDnGu0AUmpUStrcVWXc3k+fOEx8YAvt4di31SjF85Z4P/oiUSBAcGrM3NykorlS1yVpeb8mbqsdlQPR6SwSDDp09jWCGZRx6gOxZLAXv0ZPLs8KefYhgGam1tXvtmbtuZ+gJsxelEqaggOjpKeHwcKeVvkLLk2WBZecCLFRVPAU972tqoXbMGPRzGiMVK7++l6xVVxe7xkIpGuXH2LKauHwV270skSmZsL1ZUrAY+drpc7U1f/SpS09AyR3AzvTL7j1Jiq6nBVl1NaHiYqStXAJ4BfrQvkSiy5552dU7mOfaC02mJsHYttX4/eiRirfNntZhOglQVe10dqWiU0XPnsuT3J5PzpqsvOJ3rgI8rPZ7GVV1dmIkEeuH6okAEm9uNzelk6to1QsPDJvDj/cnkz+fDKv8zaBgn9tps4XggsA0pqWxoyK7SCs/phc2G3e0mFYkwdu4cuqZ9cMY0v/eUpiWwhp2axs4Uka5XAOUVwwjsUJQPSCQO6LGYozp9JG9mcoTcCVgIVJcLbDYmL14kPDaWAg4eSKX+rRxeC0qEXjWME3uFCCeDQUuE+vqsY9mMzWZDzZA/f56Urn/4rGnuf94wDMCRLvaC4igo6humOflNIc7aY7GHTV23VXm9SMOwcoTM/KIoqC4X0jQZ//xzYoFAQMCuA5r2ZrmcyhVASb+rvmqan+wSIqKHQvcjJRUeTzYZEYqCWlNDKhpl7MIFErp+/J9N8+DHUho5ZJ1FCOeRz1wPm+bQ3UL0O8LhHQghnB6PJbZhIGw21Joa9ESCsQsXSEajQwEpt/+Brp9K+ywostO+UAEyxHOL4w0pz9wPUUKh+wCcdXXWyxUVpGIxJi5eJGYYJ//ONJ88L6XOTK875xFBLbz2SHn5HoiqweC3bHY7DrfbSqoqK0mGw0x8+SWpVOrCKSl3/cQ0+5gZSoKZOa6kEKUEKEY8UxRAfUvKM98WIiJCoW8DOF0uUtEok5cuETWMkz8zzT+6DDr5YZ4hlitIpj73ndw5wv6ulOe+JUSFCATusFdUYK+qIj41xc2rV0kYxkfPSbn/v6ScyiGf+bwL5hGilACiSMmQz6p7SMozWyGmhMNb9USC0I0bxAzj5M+k/JNroBURT80phcLktq8UYvVKeeI+aDEDgQ1GMkloZISolL/+qZR/fBaKfVlKDYG8ulICZPcdyFew0JTDcGYrRO3x+NaEaR7/OTx5BeLMLAJLFQMwsaIkc2/kFJmuMwFTgnkcjvyelF0yFls7Dc/8Gfz1tCV0qfZLYeepNJcV65Gi5cdwx+tw6QtIFfmdIvdzmZlzNXOfO0B9GDb8A5wp+L3ckmcL2RGaS4Biv1PkPvdKkWdzjvuSosxTCtvKs8Vu2hUjtRTihVauELl1ZREutGU/HCWf2GLI59pcQhS7X7EVW7GF2f8C3uNaAJHeVNMAAAAASUVORK5CYII=\" />";
+                            
+                            
+                            
                             break;
-
                         }
 
                         StreamReader srr = File.OpenText(log_folder + "\\picture_mapping\\" + dir_id + ".txt");
@@ -1014,14 +1049,26 @@ namespace ez_wretch2pixnet
                             Thread.Sleep(100);
                         
                         });
-                        //Console.WriteLine(title + "已匯入過");
                         continue;
                     }
 
-                    params_list.Add("title", "(原無名 "+ post_time +" ) " + title);//標題
+                    if (org_time == false)
+                        params_list.Add("title", "(原無名 " + post_time + " ) " + HttpUtility.HtmlDecode( title));//標題
+                    else
+                        params_list.Add("title", "(原無名) " + HttpUtility.HtmlDecode(title ));
+
                     params_list.Add("body", text); //內文
                     params_list.Add("status", "2");//狀態 2 公開
-                    params_list.Add("public_at", get_timestamp(t.AddSeconds(c))); // unix timestamp
+
+                    if (org_time == false)
+                        params_list.Add("public_at", get_timestamp(t.AddSeconds(c))); // unix timestamp
+                    else
+                    {
+                        DateTime tmp_t = DateTime.ParseExact( post_time, "yyyy-MM-dd HH:mm:ss" , CultureInfo.InvariantCulture);
+                        TimeSpan span = (tmp_t - new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime());
+                        params_list.Add("public_at", span.TotalSeconds.ToString());
+                    }
+
                     params_list.Add("comment_perm", "1");//關閉留言
 
                     if( class_id != "")
@@ -1053,8 +1100,6 @@ namespace ez_wretch2pixnet
                         return;
                     }
 
-                    //MessageBox.Show(ri["message"].ToString());
-
                     string pixnet_article_id = ri["article"]["id"].ToString();
                     params_list.Clear();
 
@@ -1065,7 +1110,9 @@ namespace ez_wretch2pixnet
 
                     File.Create(log_folder + "\\blog\\ok-" + post_time.Replace(":", "-") + ".log").Close();
 
-                    string message = "";
+                    File.WriteAllText(log_folder + "\\blog\\ok-" + post_time.Replace(":", "-") + ".log", pixnet_article_id);
+
+                    /*string message = "";
 
                     foreach (JObject j in obj["blog_backup"]["blog_articles_comments"]["article_comment"])
                     {
@@ -1099,9 +1146,18 @@ namespace ez_wretch2pixnet
                         copy_to_add_params_list(params_list_msg);
                         add_params = true;
 
-                        //Thread.Sleep(6000);
+                        if (post_msg_delay == true)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                label6.Text = "處理資訊 - 留言處理閒置,等待15秒";
+                                
+                            });
+                            Thread.Sleep(15000);
+                        }
 
                         res = get_http_post("http://emma.pixnet.cc/blog/comments", params_list_msg);
+
 
                         params_list_msg.Clear();
 
@@ -1109,7 +1165,7 @@ namespace ez_wretch2pixnet
                         {
                             label6.Text = "處理資訊 - [" + title + "] 文章留言匯入完成";
                         });
-                    }
+                    }*/
 
                 }
 
@@ -1180,6 +1236,159 @@ namespace ez_wretch2pixnet
             //log_folder + "\\picture_mapping
 
             MessageBox.Show("清空完成");
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            // 2009-02-28 00:11:34 ) 你我生活中的訓詁（誤）
+
+            MessageBox.Show(DateTime.ParseExact("2009-02-28 00:11:34", "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture).ToLongTimeString() );
+
+
+
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            foreach (string i in Directory.GetFiles(log_folder + @"\blog_comment"))
+            {
+                try
+                {
+                    FileInfo fi = new FileInfo(i);
+                    if (fi.Extension == ".log")
+                        File.Delete(i);
+                }
+                catch
+                {
+                }
+            }
+
+            MessageBox.Show("清空完成");
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+
+
+            button13.Enabled = false;
+            FileInfo fi = new FileInfo(textBox4.Text);
+
+            new Thread(() =>
+            {
+
+                string res = "";
+
+                StreamReader sr = File.OpenText(log_folder + "\\" + fi.Name + ".json");
+                string all_str = sr.ReadToEnd();
+
+                Dictionary<string, string> params_list = new Dictionary<string, string>();
+
+                JObject obj = JObject.Parse(all_str);
+                foreach (JObject i in obj["blog_backup"]["blog_articles"]["article"])
+                {
+                    string title = i["title"]["#cdata-section"].ToString();
+                    string text = i["text"]["#cdata-section"].ToString();
+                    string wretch_article_id = i["id"]["#cdata-section"].ToString();
+                    string post_time = i["PostTime"]["#cdata-section"].ToString();
+
+
+                    if (!File.Exists(log_folder + "\\blog\\ok-" + post_time.Replace(":", "-") + ".log"))
+                        continue;
+
+
+                    if (File.Exists(log_folder + "\\blog_comment\\ok-comment-" + post_time.Replace(":", "-") + ".log"))
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+
+                            label17.Text = "[" + title + "] 回覆留言已匯入過";
+                            Thread.Sleep(100);
+
+                        });
+                        continue;
+                    }
+
+                    //string pixnet_article_id 
+                    
+                    StreamReader sread =  File.OpenText(log_folder + "\\blog\\ok-" + post_time.Replace(":", "-") + ".log");
+
+                    string pixnet_article_id = sread.ReadToEnd();
+
+
+                    string message = "";
+                    foreach (JObject j in obj["blog_backup"]["blog_articles_comments"]["article_comment"])
+                    {
+                        if (wretch_article_id == j["article_id"]["#cdata-section"].ToString())
+                        {
+
+                            string date = j["date"]["#cdata-section"].ToString();
+                            string comment = HttpUtility.HtmlDecode(j["text"]["#cdata-section"].ToString().Replace(@"\r\n", "").Replace(@"<br />", ""));
+                            string user_name = j["name"]["#cdata-section"].ToString();
+                            string reply_text = HttpUtility.HtmlDecode(j["reply"]["#cdata-section"].ToString().Replace(@"\r\n", "").Replace(@"<br />", ""));
+                            string replay_date = j["reply_date"]["#cdata-section"].ToString();
+
+
+                            message = message + "======\n留言人 : " + user_name + "\n留言日期 : " + date + "\n留言內容 : \n" + comment + "\n";
+
+                            if (reply_text != "")
+                                message = message + "\n版主回覆 : \n" + reply_text + "\n\n回覆時間 : " + replay_date + "\n";
+
+                        }
+                    }
+
+                    if (message != "")
+                    {
+                        //寫入留言內容下去
+                        Dictionary<string, string> params_list_msg = new Dictionary<string, string>();
+
+                        params_list_msg.Add("article_id", pixnet_article_id);
+                        params_list_msg.Add("body", "原始無名留言內容轉匯\n" + message);
+
+
+                        copy_to_add_params_list(params_list_msg);
+                        add_params = true;
+
+
+
+                        res = get_http_post("http://emma.pixnet.cc/blog/comments", params_list_msg);
+
+                        params_list_msg.Clear();
+
+                        if (res == "")
+                        {
+                            MessageBox.Show("超過時間內匯入數量上限,請稍等30分~1小時再重新執行後續匯入動做");
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                button13.Enabled = true;
+
+                            });
+                            return;
+                        }
+
+                        File.Create(log_folder + "\\blog_comment\\ok-comment-" + post_time.Replace(":", "-") + ".log").Close();
+
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            label17.Text = "處理資訊 - [" + title + "] 文章留言匯入完成";
+                        });
+                    }
+
+
+
+
+
+                }
+
+
+                this.Invoke((MethodInvoker)delegate
+                {
+                    button13.Enabled = true;
+
+                });
+
+                MessageBox.Show("文章回覆留言匯入完成");
+
+            }).Start();
         }
 
 

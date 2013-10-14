@@ -25,8 +25,8 @@ namespace ez_wretch2pixnet
     {
 
 
-        public string ConsumerKey = "5083bf623a4662c591895ebe86eb5b0c";
-        public string ComsumerSecret = "2e44787e190df4f5455d1937b95203bb";
+        public string ConsumerKey = "";
+        public string ComsumerSecret = "";
 
         public string request_token_url = "http://emma.pixnet.cc/oauth/request_token";
         public string access_token_url = "http://emma.pixnet.cc/oauth/access_token";
